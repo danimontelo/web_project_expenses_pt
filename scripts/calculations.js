@@ -3,7 +3,7 @@ let totalExpensesValue = 0;
 let balanceColor = "green";
 
 function calculateAverageExpense() {
-  if (expenseEntries) {
+  if (expenseEntries.length > 0) {
     return totalExpensesValue / expenseEntries.length;
   } else {
     return 0;
@@ -24,6 +24,34 @@ function updateBalanceColor() {
   }
 }
 
+function calculateCategoryExpenses(category) {
+  let categoryTotal = 0;
+  for (const expense of expenseEntries) {
+    if (expense[0] === category) {
+      categoryTotal += expense[1];
+    }
+  }
+  return categoryTotal;
+}
+
+function calculateLargestCategory() {
+  let largestCategory = "";
+  let largestValue = 0;
+  for (const expense of expenseEntries) {
+    const categoryTotal = calculateCategoryExpenses(expense[0]);
+    if (categoryTotal > largestValue) {
+      largestValue = categoryTotal;
+      largestCategory = expense[0];
+    }
+  }
+  return largestCategory;
+}
+
+function addExpenseEntry(data) {
+  expenseEntries.push(data);
+  totalExpensesValue += data[1];
+}
+
 const expenseEntries = [
   ["groceries", 33],
   ["restaurants", 50],
@@ -34,7 +62,6 @@ const expenseEntries = [
   ["subscriptions", 12],
 ];
 
-for (const [categoria, valor] of expenseEntries) {
-  totalExpensesValue += valor;
-  console.log("Despesas totais:" + totalExpensesValue);
+for (const [category, value] of expenseEntries) {
+  totalExpensesValue += value;
 }
